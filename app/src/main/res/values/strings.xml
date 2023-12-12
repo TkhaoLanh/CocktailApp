@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Cocktail App</string>
+    <string name="search_item">Search For Cocktail</string>
+    <string name="alert">Do you want to save this drink?</string>
+    <string name="yes">YES</string>
+    <string name="no">NO</string>
+    <string name="searchDrink">Search For Drink</string>
+    <string name="favouriteDrink">My Favourite Drinks</string>
+    <string name="detail">Drink Details</string>
+    <string name="category">Category: </string>
+    <string name="instruction">Instruction: </string>
+    <string name="ingredient">Ingredient: </string>
+    <string name="imageContent">Image Of Drink</string>
+    <string name="added"> is already in your favourtie drink!</string>
+    <string name="addSucc"> is added successfully in your favourtie drink!</string>
+    <string name="select_cat">Filter By Category</string>
+    <string name="sortCategory">Sort By Category:</string>
+    <string name="noItem">No items found for this category</string>
+    <string name="foundItem"> items found for this category</string>
+</resources>

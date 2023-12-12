@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textSize">20sp</dimen>
+    <dimen name="marginBottom">16dp</dimen>
+    <dimen name="textDetail">35sp</dimen>
+    <dimen name="cocktail_row">45dp</dimen>
+</resources>
