@@ -132,7 +132,7 @@ public class SearchActivity extends AppCompatActivity
                 if (filteredList.isEmpty()) {
                     Toast.makeText(SearchActivity.this, getString(R.string.noItem), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(SearchActivity.this, filteredList.size() + getString(R.string.foundItem), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchActivity.this, filteredList.size() + " "+getString(R.string.foundItem), Toast.LENGTH_SHORT).show();
                 }
                 adapter.list = filteredList;
                 adapter.notifyDataSetChanged();
