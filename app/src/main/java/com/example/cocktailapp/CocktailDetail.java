@@ -36,9 +36,9 @@ public class CocktailDetail extends AppCompatActivity
         //get json drink
         Cocktail cocktail = ((MyApp)getApplication()).jsonManager.fromJsonToCocktailObj(json);
         networkingManager.downloadImage(cocktail.getImage());
-        category.setText(getString(R.string.category) + cocktail.getCategory());
-        instruction.setText(getString(R.string.instruction) + cocktail.getInstruction());
-        ingredient.setText(getString(R.string.ingredient) + cocktail.getIngredient());
+        category.setText(getString(R.string.category) +" "+ cocktail.getCategory());
+        instruction.setText(getString(R.string.instruction)+"\n"+ cocktail.getInstruction());
+        ingredient.setText(getString(R.string.ingredient) +"\n"+ cocktail.getIngredient());
 
     }
 
