@@ -52,7 +52,13 @@ public class SearchActivity extends AppCompatActivity
         if(savedInstanceState != null){
             list = savedInstanceState.getParcelableArrayList("list");
             selectedCategoryPosition = savedInstanceState.getInt("selectedPosition",0);
+
+
             querry = savedInstanceState.getString("searchQuerry","");
+            if(querry.length() > 1){
+                categorySpinner.setVisibility(View.VISIBLE);
+            }
+
             if(menuSearchItem !=null){
                 menuSearchItem.setQuery(querry,false);
             }
@@ -93,10 +99,11 @@ public class SearchActivity extends AppCompatActivity
                 if(newText.length() > 1){
                     querry = newText;
                     networkingManager.getCocktails(newText);
+                    categorySpinner.setVisibility(View.VISIBLE);
                 } else {
                     adapter.list = new ArrayList<>(0);
                     adapter.notifyDataSetChanged();
-                    categorySpinner.setVisibility(View.VISIBLE);
+                    categorySpinner.setVisibility(View.INVISIBLE);
                 }
                 return false;
             }
@@ -209,6 +216,7 @@ public class SearchActivity extends AppCompatActivity
         outState.putParcelableArrayList("list", list);
         outState.putInt("selectedPosition",selectedCategoryPosition);
         outState.putString("searchQuerry",querry);
+        menuSearchItem.getQuery();
     }
 
 
