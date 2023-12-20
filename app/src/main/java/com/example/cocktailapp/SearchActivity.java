@@ -42,7 +42,7 @@ public class SearchActivity extends AppCompatActivity
     Cocktail selectedDrink;
     Spinner categorySpinner;
     Button clearFilterBtn;
-
+    boolean saveQuery = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,17 +55,14 @@ public class SearchActivity extends AppCompatActivity
 
         if(savedInstanceState != null){
             list = savedInstanceState.getParcelableArrayList("list");
+            saveQuery = true;
             selectedCategoryPosition = savedInstanceState.getInt("selectedPosition",0);
-
 
             querry = savedInstanceState.getString("searchQuerry","");
             if(querry.length() > 1){
                 categorySpinner.setVisibility(View.VISIBLE);
             }
 
-            if(menuSearchItem !=null){
-                menuSearchItem.setQuery(querry,false);
-            }
         }
 
         networkingManager = ((MyApp)getApplication()).networkingManager;
@@ -91,6 +88,15 @@ public class SearchActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.menu, menu);
         menuSearchItem = (SearchView) menu.findItem(R.id.search_bar_item).getActionView();
         menuSearchItem.setQueryHint(getString(R.string.searchDrink));
+
+        if(saveQuery && !querry.isEmpty()){
+            menuSearchItem.setIconified(false);
+            menuSearchItem.onActionViewExpanded();
+
+            menuSearchItem.setQuery(querry,false);
+
+        }
+
         menuSearchItem.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -140,7 +146,6 @@ public class SearchActivity extends AppCompatActivity
                 public void onClick(View v) {
 
                     adapter.notifyDataSetChanged();
-
                     //clear filter and reset UI
                     categorySpinner.setSelection(0);
                     //hide clearFilter button
@@ -221,7 +226,6 @@ public class SearchActivity extends AppCompatActivity
 
     @Override
     public void networkingFinishWithBitMapImage(Bitmap bitmap) {
-        // Handle Bitmap image when fetched from network
     }
 
     @Override
@@ -267,7 +271,6 @@ public class SearchActivity extends AppCompatActivity
         outState.putParcelableArrayList("list", list);
         outState.putInt("selectedPosition",selectedCategoryPosition);
         outState.putString("searchQuerry",querry);
-        menuSearchItem.getQuery();
     }
 
 
