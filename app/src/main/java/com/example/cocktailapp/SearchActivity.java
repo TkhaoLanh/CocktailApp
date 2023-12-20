@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class SearchActivity extends AppCompatActivity
     private String querry = "";
     Cocktail selectedDrink;
     Spinner categorySpinner;
+    Button clearFilterBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class SearchActivity extends AppCompatActivity
 
         categorySpinner = findViewById(R.id.categorySpinner);
         categorySpinner.setVisibility(View.GONE);
+
+        clearFilterBtn = findViewById(R.id.clearFilterButton);
 
         if(savedInstanceState != null){
             list = savedInstanceState.getParcelableArrayList("list");
@@ -104,6 +108,8 @@ public class SearchActivity extends AppCompatActivity
                     adapter.list = new ArrayList<>(0);
                     adapter.notifyDataSetChanged();
                     categorySpinner.setVisibility(View.INVISIBLE);
+                    //set spinner to default selection
+                    categorySpinner.setSelection(0);
                 }
                 return false;
             }
@@ -122,6 +128,20 @@ public class SearchActivity extends AppCompatActivity
 
         adapter.list = list;
         adapter.notifyDataSetChanged();
+    }
+
+    //show/hide clear filter button
+    private void showClearFilterButton(boolean show){
+        if(clearFilterBtn != null){
+            clearFilterBtn.setVisibility(show ? View.VISIBLE : View.GONE);
+            clearFilterBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //clear filter and reset UI
+                    categorySpinner.setSelection(0);
+                }
+            });
+        }
     }
 
     //populate()
@@ -147,10 +167,15 @@ public class SearchActivity extends AppCompatActivity
                 // Update the selectedCategoryPosition
                 selectedCategoryPosition = position;
 
+                //show/hide clearFilter button based on selection
+                showClearFilterButton(position != 0);
+
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+                //hide clearFilter button
+                showClearFilterButton(false);
 
             }
         });
