@@ -36,7 +36,10 @@
         <activity
             android:name=".SearchActivity"
             android:exported="true"
-            android:label="@string/searchDrink" />
+            android:label="@string/searchDrink"
+            android:configChanges="orientation|screenSize"
+
+            />
     </application>
 
 </manifest>
