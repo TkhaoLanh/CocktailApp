@@ -66,7 +66,6 @@ public class SearchActivity extends AppCompatActivity
             if(menuSearchItem !=null){
                 menuSearchItem.setQuery(querry,false);
             }
-
         }
 
         networkingManager = ((MyApp)getApplication()).networkingManager;
@@ -104,12 +103,14 @@ public class SearchActivity extends AppCompatActivity
                     querry = newText;
                     networkingManager.getCocktails(newText);
                     categorySpinner.setVisibility(View.VISIBLE);
+
                 } else {
                     adapter.list = new ArrayList<>(0);
                     adapter.notifyDataSetChanged();
                     categorySpinner.setVisibility(View.INVISIBLE);
                     //set spinner to default selection
                     categorySpinner.setSelection(0);
+
                 }
                 return false;
             }
@@ -137,8 +138,13 @@ public class SearchActivity extends AppCompatActivity
             clearFilterBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    adapter.notifyDataSetChanged();
+
                     //clear filter and reset UI
                     categorySpinner.setSelection(0);
+                    //hide clearFilter button
+                    clearFilterBtn.setVisibility(View.GONE);
                 }
             });
         }
@@ -153,16 +159,25 @@ public class SearchActivity extends AppCompatActivity
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedCategory = categoryList.get(position);
-                ArrayList<Cocktail> filteredList = filterByCategory(selectedCategory, list);
+                if(position == 0){ //"Sort By Category" is selected
+                    if (!querry.isEmpty()) {
+                        ArrayList<Cocktail> searchedList = filterByQuery(querry, list);
+                        adapter.list = searchedList;
+                        adapter.notifyDataSetChanged();
+                    }
 
-                if (filteredList.isEmpty()) {
-                    Toast.makeText(SearchActivity.this, getString(R.string.noItem), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(SearchActivity.this, filteredList.size() + " "+getString(R.string.foundItem), Toast.LENGTH_SHORT).show();
+                }else{//Category selected from spinner
+                    String selectedCategory = categoryList.get(position);
+                    ArrayList<Cocktail> filteredList = filterByCategory(selectedCategory, list);
+
+                    if (filteredList.isEmpty()) {
+                        Toast.makeText(SearchActivity.this, getString(R.string.noItem), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(SearchActivity.this, filteredList.size() + " "+getString(R.string.foundItem), Toast.LENGTH_SHORT).show();
+                    }
+                    adapter.list = filteredList;
+                    adapter.notifyDataSetChanged();
                 }
-                adapter.list = filteredList;
-                adapter.notifyDataSetChanged();
 
                 // Update the selectedCategoryPosition
                 selectedCategoryPosition = position;
@@ -182,6 +197,17 @@ public class SearchActivity extends AppCompatActivity
         // Select the saved position in the spinner
         categorySpinner.setSelection(selectedCategoryPosition);
     }
+
+    private ArrayList<Cocktail> filterByQuery(String query, ArrayList<Cocktail> drinkList) {
+        ArrayList<Cocktail> filteredList = new ArrayList<>();
+        for (Cocktail drink : drinkList) {
+            if (drink.getName().toLowerCase().contains(query.toLowerCase())) {
+                filteredList.add(drink);
+            }
+        }
+        return filteredList;
+    }
+
 
     private ArrayList<Cocktail> filterByCategory(String category, ArrayList<Cocktail> drinkList) {
         ArrayList<Cocktail> filteredList = new ArrayList<>();
@@ -262,3 +288,5 @@ public class SearchActivity extends AppCompatActivity
 
     }
 }
+
+
