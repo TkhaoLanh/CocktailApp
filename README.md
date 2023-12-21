@@ -1,5 +1,4 @@
 # Cocktail App
-
 ## Overview
 -	The Cocktail App is getting a list of cocktails by using Cocktail API on the website:  https://www.thecocktaildb.com/api.php
 -	The App has 3 main activities, and the user can search by name of drink, select his/her favourite drink and see details about drink such as image, instruction, category and ingredient.
